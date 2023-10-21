@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 class Tweet; 
 
 class Usuario {
@@ -16,8 +15,11 @@ public:
     vector<Usuario*> seguidores;
     vector<Usuario*> seguindo;
 
-    Usuario(const string& _nomeDoUsuario, const string& _nomeReal)
-        : nomeUsuario(_nomeDoUsuario), nome(_nomeReal) {}
+    Usuario(const string& _nomeDoUsuario, const string& _nomeReal){
+        nomeUsuario = _nomeDoUsuario;
+        nome = _nomeReal;
+    
+    }
 
     const string& getNomeUsuario() const {
         return nomeUsuario;
