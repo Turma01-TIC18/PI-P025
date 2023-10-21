@@ -60,8 +60,35 @@ public:
 };
 
 class RedeSocial {
-//implementar
+public:
+    vector<Usuario> usuarios;
+
+    void registrarUsuario(const string& _nomeDoUsuario, const string& _nomeReal) {
+        usuarios.push_back(Usuario(_nomeDoUsuario, _nomeReal));
+    }
+
+    Usuario* buscarUsuario(const string& _nomeDoUsuario) {
+        for (Usuario& usuario : usuarios) {
+            if (usuario.getNomeUsuario() == _nomeDoUsuario) {
+                return &usuario;
+            }
+        }
+        return nullptr;
+    }
+
+    vector<Usuario> listarUsuarios() const {
+        return usuarios;
+    }
+
+    vector<Tweet> listarTweets() const {
+        vector<Tweet> allTweets;
+        for (const Usuario& usuario : usuarios) {
+            allTweets.insert(allTweets.end(), usuario.receberFeed().begin(), usuario.receberFeed().end());
+        }
+        return allTweets;
+    }
 };
+
 
 void Usuario::postarTweet(const string& _conteudo) {
     //implementar
