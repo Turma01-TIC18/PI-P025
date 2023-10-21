@@ -105,14 +105,17 @@ void Usuario::seguir(Usuario* _usuario) {
     }
 }
 
+bool compararPorDataCriacao(const Tweet& a, const Tweet& b) {
+    return a.getDataCriacao() > b.getDataCriacao();
+}
+
 vector<Tweet> Usuario::receberFeed() const {
     vector<Tweet> feed;
     for (Usuario* seguido : seguindo) {
         feed.insert(feed.end(), seguido->tweets.begin(), seguido->tweets.end());
     }
-    sort(feed.rbegin(), feed.rend(), [](const Tweet& a, const Tweet& b) {
-            return a.getDataCriacao() > b.getDataCriacao();
-    });
+    sort(feed.rbegin(), feed.rend(), compararPorDataCriacao);
+
     return feed;
 }
 
