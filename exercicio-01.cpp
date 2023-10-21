@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <ctime>
+#include <algorithm>
 
 using namespace std;
 
@@ -105,7 +106,14 @@ void Usuario::seguir(Usuario* _usuario) {
 }
 
 vector<Tweet> Usuario::receberFeed() const {
-    //implementar
+    vector<Tweet> feed;
+    for (Usuario* seguido : seguindo) {
+        feed.insert(feed.end(), seguido->tweets.begin(), seguido->tweets.end());
+    }
+    sort(feed.rbegin(), feed.rend(), [](const Tweet& a, const Tweet& b) {
+            return a.getDataCriacao() > b.getDataCriacao();
+    });
+    return feed;
 }
 
 
@@ -161,19 +169,13 @@ int main() {
             }
             break;
         case 3:
-
-            cout << "Digite o nome de usuário que deseja seguir: ";
-
+            cout << "Digite o nome de usuário seguidor: ";
             getline(cin >> ws, nomeDoSeguidor);
             seguidor = redeSocial.buscarUsuario(nomeDoSeguidor);
-
-
             if (seguidor) {
                 cout << "Digite o nome de usuario que deseja seguir: ";
                 getline(cin >> ws, nomeSeguindo);
                 seguindo = redeSocial.buscarUsuario(nomeSeguindo);
-
-
                 if (seguindo) {
                     seguidor->seguir(seguindo);
                     cout << nomeDoSeguidor << " está seguindo " << nomeSeguindo << ".\n";
@@ -188,13 +190,9 @@ int main() {
             break;
 
         case 4:
-
             cout << "Digite o nome de usuario para exibir o feed: ";
-
             cin >> nomeFeed;
             usuarioFeed = redeSocial.buscarUsuario(nomeFeed);
-
-
             if (usuarioFeed) {
                 vector<Tweet> feed = usuarioFeed->receberFeed();
                 cout << "Feed de " << nomeFeed << ":\n";
@@ -221,15 +219,12 @@ int main() {
         case 6:
             cout << "Lista de Tweets:\n";
             for (const Usuario& usuario : redeSocial.listarUsuarios()) {
-            for (const Tweet& tweet : usuario.tweets) {
-                cout << tweet.getAutor()->getNomeUsuario() << " (" << tweet.getDataCriacao() << "): " << tweet.getConteudo() << "\n";
-                system("pause");
+                for (const Tweet& tweet : usuario.tweets) {
+                    cout << tweet.getAutor()->getNomeUsuario() << " (" << tweet.getDataCriacao() << "): " << tweet.getConteudo() << "\n";
+                    system("pause");
+                }
             }
-             }
-
             break;
-
-
         case 7:
             sair = false;
             break;
