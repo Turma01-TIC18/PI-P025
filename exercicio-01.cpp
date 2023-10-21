@@ -93,11 +93,15 @@ public:
 
 
 void Usuario::postarTweet(const string& _conteudo) {
-    //implementar
+    Tweet tweet(this, _conteudo);
+    tweets.push_back(tweet);
 }
 
 void Usuario::seguir(Usuario* _usuario) {
-   //implementar
+    if (_usuario != this) {
+        seguindo.push_back(_usuario);
+        _usuario->seguidores.push_back(this);
+    }
 }
 
 vector<Tweet> Usuario::receberFeed() const {
